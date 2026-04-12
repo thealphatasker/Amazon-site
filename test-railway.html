@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Railway Backend</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      .container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+      .test-section {
+        margin: 20px 0;
+        padding: 15px;
+        background: #f9f9f9;
+        border-left: 4px solid #007bff;
+      }
+      .success {
+        color: #28a745;
+        font-weight: bold;
+      }
+      .error {
+        color: #dc3545;
+        font-weight: bold;
+      }
+      .loading {
+        color: #ffc107;
+      }
+      button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      pre {
+        background: #f4f4f4;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+      }
+      .url {
+        color: #007bff;
+        word-break: break-all;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🧪 Railway Backend Connection Test</h1>
+
+      <div class="test-section">
+        <h3>Backend URL:</h3>
+        <p class="url">https://amazonserver.up.railway.app</p>
+      </div>
+
+      <div class="test-section">
+        <h3>Test 1: Check Server Health</h3>
+        <button onclick="testServerHealth()">Run Test</button>
+        <div id="health-result"></div>
+      </div>
+
+      <div class="test-section">
+        <h3>Test 2: Get Cart</h3>
+        <button onclick="testGetCart()">Run Test</button>
+        <div id="cart-result"></div>
+      </div>
+
+      <div class="test-section">
+        <h3>Test 3: Add Item to Cart</h3>
+        <button onclick="testAddToCart()">Run Test</button>
+        <div id="add-result"></div>
+      </div>
+
+      <div class="test-section">
+        <h3>Test 4: Get Products</h3>
+        <button onclick="testGetProducts()">Run Test</button>
+        <div id="products-result"></div>
+      </div>
+
+      <div class="test-section">
+        <button
+          onclick="runAllTests()"
+          style="background: #28a745; font-size: 16px; padding: 12px 30px"
+        >
+          🚀 Run All Tests
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE_URL = "https://amazonserver.up.railway.app";
+
+      async function testServerHealth() {
+        const resultDiv = document.getElementById("health-result");
+        resultDiv.innerHTML = '<p class="loading">⏳ Testing...</p>';
+
+        try {
+          const response = await fetch(`${API_BASE_URL}/cart?userId=test`);
+          if (response.ok) {
+            resultDiv.innerHTML =
+              '<p class="success">✅ Server is online and responding!</p>';
+          } else {
+            resultDiv.innerHTML = `<p class="error">❌ Server responded with status: ${response.status}</p>`;
+          }
+        } catch (error) {
+          resultDiv.innerHTML = `<p class="error">❌ Cannot connect to server: ${error.message}</p>`;
+        }
+      }
+
+      async function testGetCart() {
+        const resultDiv = document.getElementById("cart-result");
+        resultDiv.innerHTML = '<p class="loading">⏳ Fetching cart...</p>';
+
+        try {
+          const response = await fetch(`${API_BASE_URL}/cart?userId=guest`);
+          const data = await response.json();
+
+          if (response.ok) {
+            resultDiv.innerHTML = `
+                        <p class="success">✅ Cart retrieved successfully!</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+          } else {
+            resultDiv.innerHTML = `<p class="error">❌ Error: ${data.message || "Unknown error"}</p>`;
+          }
+        } catch (error) {
+          resultDiv.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+        }
+      }
+
+      async function testAddToCart() {
+        const resultDiv = document.getElementById("add-result");
+        resultDiv.innerHTML =
+          '<p class="loading">⏳ Adding item to cart...</p>';
+
+        const testProduct = {
+          id: 999,
+          name: "Test Product",
+          price: 29.99,
+          image: "./test.jpg",
+          description: "This is a test product",
+          rating: 4.5,
+          reviews: 100,
+        };
+
+        try {
+          const response = await fetch(`${API_BASE_URL}/cart/add`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: "guest",
+              product: testProduct,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            resultDiv.innerHTML = `
+                        <p class="success">✅ Item added to cart successfully!</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+          } else {
+            resultDiv.innerHTML = `<p class="error">❌ Error: ${data.message || "Unknown error"}</p>`;
+          }
+        } catch (error) {
+          resultDiv.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+        }
+      }
+
+      async function testGetProducts() {
+        const resultDiv = document.getElementById("products-result");
+        resultDiv.innerHTML = '<p class="loading">⏳ Fetching products...</p>';
+
+        try {
+          const response = await fetch(`${API_BASE_URL}/products`);
+          const data = await response.json();
+
+          if (response.ok) {
+            resultDiv.innerHTML = `
+                        <p class="success">✅ Products retrieved successfully!</p>
+                        <p>Found ${data.length} products</p>
+                        <pre>${JSON.stringify(data.slice(0, 2), null, 2)}</pre>
+                        ${data.length > 2 ? "<p>... and more</p>" : ""}
+                    `;
+          } else {
+            resultDiv.innerHTML = `<p class="error">❌ Error: ${data.message || "Unknown error"}</p>`;
+          }
+        } catch (error) {
+          resultDiv.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+        }
+      }
+
+      async function runAllTests() {
+        await testServerHealth();
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        await testGetCart();
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        await testAddToCart();
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        await testGetProducts();
+      }
+
+      // Run health check on page load
+      window.onload = () => {
+        testServerHealth();
+      };
+    </script>
+  </body>
+</html>

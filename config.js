@@ -1,7 +1,7 @@
 // API Configuration
-// Change this URL when deploying to Railway
-const API_BASE_URL = "http://localhost:8000"; // Local development (backend runs on port 8000)
-// const API_BASE_URL = 'https://your-app.railway.app'; // Production (Railway)
+// Backend deployed on Railway
+const API_BASE_URL = "https://amazonserver.up.railway.app"; // Production (Railway)
+// const API_BASE_URL = "http://localhost:8000"; // Local development (uncomment for local testing)
 
 const API_ENDPOINTS = {
   products: `${API_BASE_URL}/products`,
