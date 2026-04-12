@@ -1,176 +1,494 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amazone Clone</title>
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-<body>
-    <header>
-        <div class="navbar">
-            <div class="nav-logo border">
-                <div class="logo"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amazon Clone</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <header class="sticky-top">
+      <!-- Main Navbar -->
+      <nav class="bg-[#0f1111] text-white">
+        <div
+          class="d-flex align-items-center justify-content-between px-2 py-2"
+        >
+          <!-- Logo -->
+          <div
+            class="nav-logo border border-transparent hover:border-white transition-all px-2 py-1 cursor-pointer"
+          >
+            <svg class="w-24 h-10" viewBox="0 0 100 30" fill="white">
+              <text
+                x="5"
+                y="22"
+                font-family="Arial"
+                font-size="24"
+                font-weight="bold"
+              >
+                amazon
+              </text>
+              <path
+                d="M 35 25 Q 50 28, 65 25"
+                stroke="#FF9900"
+                stroke-width="2"
+                fill="none"
+              />
+            </svg>
+          </div>
+
+          <!-- Delivery Address -->
+          <div
+            class="nav-address border border-transparent hover:border-white transition-all px-2 py-1 cursor-pointer d-none d-md-flex flex-column"
+          >
+            <span class="text-xs text-gray-300">Deliver to</span>
+            <div class="d-flex align-items-center">
+              <i class="fa-solid fa-location-dot me-1"></i>
+              <span class="fw-bold">Pakistan</span>
             </div>
-            <div class="nav-address border">
-                <p class="add-first">Deliver to</p>
-               <div class="add-icon">
-                <i class="fa-solid fa-location-dot"></i>
-                <p class="add-sec">India</p>
-               </div>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="flex-grow-1 mx-2 d-flex" style="max-width: 800px">
+            <div class="input-group">
+              <select
+                class="form-select rounded-start"
+                style="max-width: 60px; background-color: #f3f3f3"
+              >
+                <option>All</option>
+              </select>
+              <input
+                type="text"
+                class="form-control border-0"
+                placeholder="Search Amazon"
+              />
+              <button
+                class="btn rounded-end"
+                style="background-color: #febd69; color: #0f1111"
+              >
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
             </div>
-            <div class="nav-search">
-                <select  class="search-select">
-                    <option>All</option>
-                   </select>
-                    <input placeholder="Search Amazon" class="search-input">
-                    <div class="search-icon">
-                       <i class="fa-solid fa-magnifying-glass-minus"></i>
-                    </div>
+          </div>
+
+          <!-- Sign In -->
+          <div
+            class="nav-signin border border-transparent hover:border-white transition-all px-2 py-1 cursor-pointer d-none d-lg-flex flex-column"
+          >
+            <span class="text-xs">Hello, sign in</span>
+            <span class="fw-bold text-sm">Account & Lists</span>
+          </div>
+
+          <!-- Returns & Orders -->
+          <div
+            class="nav-return border border-transparent hover:border-white transition-all px-2 py-1 cursor-pointer d-none d-lg-flex flex-column"
+          >
+            <span class="text-xs">Returns</span>
+            <span class="fw-bold text-sm">& Orders</span>
+          </div>
+
+          <!-- Cart -->
+          <a href="cart.html" class="text-decoration-none text-white">
+            <div
+              class="nav-cart border border-transparent hover:border-white transition-all px-2 py-1 cursor-pointer d-flex align-items-center position-relative"
+            >
+              <i class="fa-solid fa-cart-shopping fs-4 me-1"></i>
+              <span class="fw-bold">Cart</span>
+              <span
+                id="cart-count"
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                style="display: none"
+              >
+                0
+              </span>
             </div>
-            <div class="nav-signin border">
-                <p><span>Hello,signin </span></p>
-                <p class="nav_sec">Account & Lists</p>
-            </div>
-               <div class="nav-return border">
-                <p><span>Returns </span></p>
-                <p class="nav_sec">& Orders</p>
-            </div>
-            <div class="nav-cart border">
-                <i class="fa-solid fa-cart-shopping"></i>
-                cart
-            </div>
-       </div>
-        <div class="panel">
-            <div class="panel-all">
-         <i class="fa-solid fa-bars"></i>
-                All
-            </div>
-            <div class="panel-opt">
-                <p>Today's Deal</p>
-                <p>Customer Service</p>
-                <p> Registry</p>
-                <p>Gift Card</p>
-                <p>Sell</p>
-            </div>
-            <div class="panel-deal">Shops Deal in Electonics</div>
+          </a>
         </div>
+      </nav>
+
+      <!-- Secondary Panel -->
+      <div class="bg-[#232f3e] text-white py-2 px-3">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center gap-3">
+            <div
+              class="cursor-pointer hover:border hover:border-white px-2 py-1"
+            >
+              <i class="fa-solid fa-bars me-2"></i>All
+            </div>
+            <div class="d-none d-md-flex gap-3 text-sm">
+              <span
+                class="cursor-pointer hover:border hover:border-white px-2 py-1"
+                >Today's Deal</span
+              >
+              <span
+                class="cursor-pointer hover:border hover:border-white px-2 py-1"
+                >Customer Service</span
+              >
+              <span
+                class="cursor-pointer hover:border hover:border-white px-2 py-1"
+                >Registry</span
+              >
+              <span
+                class="cursor-pointer hover:border hover:border-white px-2 py-1"
+                >Gift Card</span
+              >
+              <span
+                class="cursor-pointer hover:border hover:border-white px-2 py-1"
+                >Sell</span
+              >
+            </div>
+          </div>
+          <div class="fw-bold text-sm">Shops Deal in Electronics</div>
+        </div>
+      </div>
     </header>
-    <div class="hero-section">
-        <div class="hero-mesg">
-            <p>you are amazon.com.You can also shoop on Amazon India for millions of products with fact local dilivery  <a >Click here to go amazon.con</a></p>
-        </div>
+    <!-- Hero Section -->
+    <div
+      class="hero-section position-relative"
+      style="
+        background-image: url(&quot;./hero_image.jpg&quot;);
+        background-size: cover;
+        height: 400px;
+      "
+    ></div>
+
+    <!-- Products Section -->
+    <div class="container-fluid bg-light py-4">
+      <h2 class="text-center mb-4 fw-bold">Featured Products</h2>
+      <div class="row g-4 px-3" id="products-container">
+        <!-- Products will be dynamically loaded here -->
+      </div>
     </div>
-    <div class="shop-sec">
-        <div class="box1 box">
-        <div class="box-content">
-            <h2>Health &  Personal Care</h2>
-            <div class="box-img "></div>
-            <p>See more</p>
-         </div>
-        </div>
-        <div class="box2 box">
-         <div class="box-content">
-            <h2>Clothes</h2>
-            <div class="box-img" style="background-image: url('./box2_image.jpg');"></div>
-            <p>See more</p>
-         </div>
-        </div>
-        <div class="box3 box"> <div class="box-content">
-            <h2>Furniture Center</h2>
-            <div class="box-img" style="background-image: url('./box3_image.jpg');"></div>
-            <p>See more</p>
-         </div></div>
-        <div class="box4 box"> 
-            <div class="box-content">
-            <h2>Mobile Phone</h2>
-            <div class="box-img" style="background-image: url('./box4_image.jpg');"></div>
-            <p>See more</p>
-         </div>
-        </div>
-        <div class="box1 box">
-        <div class="box-content">
-            <h2>Beauty Make-up</h2>
-            <div class="box-img" style="background-image: url('./box5_image.jpg');"></div>
-            <p>See more</p>
-         </div>
-        </div>
-        <div class="box2 box">
-         <div class="box-content">
-            <h2>Dog & Cat</h2>
-            <div class="box-img" style="background-image: url('./box6_image.jpg');"></div>
-            <p>See more</p>
-         </div>
-        </div>
-        <div class="box3 box"> <div class="box-content">
-            <h2>Stationary</h2>
-            <div class="box-img" style="background-image: url('./box7_image.jpg');"></div>
-            <p>See more</p>
-         </div></div>
-        <div class="box4 box"> 
-            <div class="box-content">
-            <h2>Fashion- Design</h2>
-            <div class="box-img" style="background-image: url('./box8_image.jpg');"></div>
-            <p>See more</p>
-         </div>
-    </div>
- </div>
-    <footer>
-        <div class="foot-panel1">
-            Back to Top
-        </div>
-        <div class="foot-panel2">
-           <ul>
-            <p>Get to Know</p>
-            <a>Careers</a>
-            <a>Blog</a>
-            <a>About Amazon</a>
-            <a>Investor Relationship</a>
-            <a>Amazon Device</a>
-            <a>Amazon Science</a>
-           </ul>
-            <ul>
-            <p>Get to Know</p>
-            <a>Careers</a>
-            <a>Blog</a>
-            <a>About Amazon</a>
-            <a>Investor Relationship</a>
-            <a>Amazon Device</a>
-            <a>Amazon Science</a>
-           </ul>
-            <ul>
-            <p>Get to Know</p>
-            <a>Careers</a>
-            <a>Blog</a>
-            <a>About Amazon</a>
-            <a>Investor Relationship</a>
-            <a>Amazon Device</a>
-            <a>Amazon Science</a>
-           </ul>
-            <ul>
-            <p>Get to Know</p>
-            <a>Careers</a>
-            <a>Blog</a>
-            <a>About Amazon</a>
-            <a>Investor Relationship</a>
-            <a>Amazon Device</a>
-            <a>Amazon Science</a>
-           </ul>
-        
-        </div>
-        <div class="foot-panel3">
-            <div class="logo2"></div>
-        </div>
-        <div class="foot-panel4">
-            <div class="pages">
-                <a>Conditions For Use</a>
-                <a>Privacy Notice</a>
-                <a>Yours add Privacy Choice</a>
+
+    <!-- Category Section -->
+    <div class="container-fluid bg-white py-4 mt-4">
+      <h3 class="text-center mb-4 fw-bold">Shop by Category</h3>
+      <div class="row g-3 px-3">
+        <!-- Box 1 -->
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="card h-100 shadow-sm hover:shadow-lg transition-shadow">
+            <div class="card-body">
+              <h5 class="card-title fw-bold mb-3">Health & Personal Care</h5>
+              <img
+                src="./box1_image.jpg"
+                class="card-img-top rounded mb-3"
+                alt="Health & Personal Care"
+                style="height: 300px; object-fit: cover"
+              />
+              <a href="#" class="text-decoration-none text-info">See more</a>
             </div>
-            <div class="copyright">1996-2023,Amazon.com Inc or its affiliated</div>
+          </div>
         </div>
+
+        <!-- Box 2 -->
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="card h-100 shadow-sm hover:shadow-lg transition-shadow">
+            <div class="card-body">
+              <h5 class="card-title fw-bold mb-3">Clothes</h5>
+              <img
+                src="./box2_image.jpg"
+                class="card-img-top rounded mb-3"
+                alt="Clothes"
+                style="height: 300px; object-fit: cover"
+              />
+              <a href="#" class="text-decoration-none text-info">See more</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box 3 -->
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="card h-100 shadow-sm hover:shadow-lg transition-shadow">
+            <div class="card-body">
+              <h5 class="card-title fw-bold mb-3">Furniture Center</h5>
+              <img
+                src="./box3_image.jpg"
+                class="card-img-top rounded mb-3"
+                alt="Furniture"
+                style="height: 300px; object-fit: cover"
+              />
+              <a href="#" class="text-decoration-none text-info">See more</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box 4 -->
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="card h-100 shadow-sm hover:shadow-lg transition-shadow">
+            <div class="card-body">
+              <h5 class="card-title fw-bold mb-3">Mobile Phone</h5>
+              <img
+                src="./box4_image.jpg"
+                class="card-img-top rounded mb-3"
+                alt="Mobile Phone"
+                style="height: 300px; object-fit: cover"
+              />
+              <a href="#" class="text-decoration-none text-info">See more</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Footer -->
+    <footer class="mt-5">
+      <!-- Back to Top -->
+      <div
+        class="bg-[#37475a] text-white text-center py-3 cursor-pointer hover:bg-[#485769]"
+      >
+        <a href="#" class="text-white text-decoration-none">Back to Top</a>
+      </div>
+
+      <!-- Footer Links -->
+      <div class="bg-[#232f3e] text-white py-5">
+        <div class="container">
+          <div class="row g-4">
+            <div class="col-6 col-md-3">
+              <h6 class="fw-bold mb-3">Get to Know Us</h6>
+              <ul class="list-unstyled">
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Careers</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Blog</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >About Amazon</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Investor Relations</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Amazon Devices</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Amazon Science</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="col-6 col-md-3">
+              <h6 class="fw-bold mb-3">Make Money with Us</h6>
+              <ul class="list-unstyled">
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Sell on Amazon</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Sell apps on Amazon</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Become an Affiliate</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Advertise Your Products</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Self-Publish with Us</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Host an Amazon Hub</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="col-6 col-md-3">
+              <h6 class="fw-bold mb-3">Amazon Payment Products</h6>
+              <ul class="list-unstyled">
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Amazon Business Card</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Shop with Points</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Reload Your Balance</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Amazon Currency Converter</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="col-6 col-md-3">
+              <h6 class="fw-bold mb-3">Let Us Help You</h6>
+              <ul class="list-unstyled">
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Your Account</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Your Orders</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Shipping Rates & Policies</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Returns & Replacements</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Manage Your Content</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-decoration-none text-light small d-block mb-2 hover:underline"
+                    >Help</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logo Section -->
+      <div class="bg-[#232f3e] border-top border-secondary py-4">
+        <div class="d-flex justify-content-center align-items-center">
+          <svg class="w-24 h-10" viewBox="0 0 100 30" fill="white">
+            <text
+              x="5"
+              y="22"
+              font-family="Arial"
+              font-size="24"
+              font-weight="bold"
+            >
+              amazon
+            </text>
+            <path
+              d="M 35 25 Q 50 28, 65 25"
+              stroke="#FF9900"
+              stroke-width="2"
+              fill="none"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="bg-[#0f1111] text-light py-4">
+        <div class="container text-center">
+          <div class="mb-2">
+            <a
+              href="#"
+              class="text-decoration-none text-light small me-3 hover:underline"
+              >Conditions of Use</a
+            >
+            <a
+              href="#"
+              class="text-decoration-none text-light small me-3 hover:underline"
+              >Privacy Notice</a
+            >
+            <a
+              href="#"
+              class="text-decoration-none text-light small hover:underline"
+              >Your Ads Privacy Choices</a
+            >
+          </div>
+          <div class="small text-secondary">
+            © 1996-2026, Amazon.com, Inc. or its affiliates
+          </div>
+        </div>
+      </div>
     </footer>
 
-</body>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Config -->
+    <script src="config.js"></script>
+    <!-- Custom JS -->
+    <script src="cart.js"></script>
+    <script src="products.js"></script>
+  </body>
 </html>
