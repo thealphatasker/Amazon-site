@@ -1,0 +1,11 @@
+{
+  "name": "amazon-clone",
+  "version": "1.0.0",
+  "description": "Amazon Clone - Static Website",
+  "scripts": {
+    "dev": "npx live-server --port=3000 --open=index.html"
+  },
+  "keywords": ["amazon", "clone", "html", "css"],
+  "author": "",
+  "license": "ISC"
+}
