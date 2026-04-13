@@ -43,13 +43,14 @@
 }
 
 /* Navbar custom styles */
-.nav-logo svg,
+.nav-logo,
 .nav-address,
 .nav-signin,
 .nav-return,
 .nav-cart {
-  border: 2px solid transparent;
+  border: 1px solid transparent !important;
   border-radius: 2px;
+  transition: border-color 0.2s ease;
 }
 
 .nav-logo:hover,
@@ -57,7 +58,7 @@
 .nav-signin:hover,
 .nav-return:hover,
 .nav-cart:hover {
-  border-color: white;
+  border-color: white !important;
 }
 
 /* Search bar focus effect */
