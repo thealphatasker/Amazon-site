@@ -2,7 +2,8 @@
 class ShoppingCart {
   constructor() {
     this.items = [];
-    this.loadCartFromBackend();
+    this.isLoaded = false;
+    this.loadPromise = this.loadCartFromBackend();
   }
 
   // Load cart from backend
@@ -22,32 +23,44 @@ class ShoppingCart {
           reviews: item.reviews,
           quantity: item.quantity,
         }));
+        this.isLoaded = true;
         this.updateCartCount();
+        console.log("✅ Cart loaded from backend:", this.items);
       } else {
-        console.warn("Backend unavailable, using localStorage");
+        console.warn("⚠️ Backend unavailable, using localStorage");
         this.loadCartFromLocalStorage();
       }
     } catch (error) {
-      console.error("Error loading cart from backend:", error);
+      console.error("❌ Error loading cart from backend:", error);
       this.loadCartFromLocalStorage();
     }
   }
 
+  // Wait for cart to be loaded
+  async waitForLoad() {
+    await this.loadPromise;
+    return this.items;
+  }
+
   // Fallback: Load cart from localStorage
   loadCartFromLocalStorage() {
-    const cart = localStorage.getItem("amazonCart");
-    this.items = cart ? JSON.parse(cart) : [];
+    const cartData = localStorage.getItem("amazonCart");
+    this.items = cartData ? JSON.parse(cartData) : [];
+    this.isLoaded = true;
     this.updateCartCount();
+    console.log("📦 Cart loaded from localStorage:", this.items);
   }
 
   // Save to localStorage as backup
   saveToLocalStorage() {
     localStorage.setItem("amazonCart", JSON.stringify(this.items));
+    console.log("💾 Cart saved to localStorage");
   }
 
   // Add item to cart (with backend sync)
   async addItem(product) {
     try {
+      console.log("🛒 Adding item to cart:", product);
       const response = await fetch(API_ENDPOINTS.addToCart, {
         method: "POST",
         headers: {
@@ -60,6 +73,7 @@ class ShoppingCart {
       });
 
       const data = await response.json();
+      console.log("📥 Backend response:", data);
 
       if (response.ok && data.success) {
         this.items = data.cart.items.map((item) => ({
@@ -75,11 +89,12 @@ class ShoppingCart {
         this.saveToLocalStorage();
         this.updateCartCount();
         this.showNotification(`${product.name} added to cart!`);
+        console.log("✅ Item added successfully. Cart now:", this.items);
       } else {
         throw new Error(data.message || "Failed to add item");
       }
     } catch (error) {
-      console.error("Error adding to cart:", error);
+      console.error("❌ Error adding to cart:", error);
       this.addItemLocally(product);
     }
   }
@@ -103,6 +118,7 @@ class ShoppingCart {
       `${product.name} added to cart! (Offline mode)`,
       "warning",
     );
+    console.log("📦 Item added locally. Cart now:", this.items);
   }
 
   // Remove item from cart (with backend sync)

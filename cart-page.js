@@ -1,9 +1,18 @@
 // Cart Page Functionality
 
 // Render cart items
-function renderCartItems() {
+async function renderCartItems() {
   const container = document.getElementById("cart-items-container");
+
+  // Show loading
+  container.innerHTML =
+    '<div class="text-center py-5"><div class="spinner-border" role="status"></div><p class="mt-2">Loading cart...</p></div>';
+
+  // Wait for cart to load
+  await cart.waitForLoad();
+
   const items = cart.getItems();
+  console.log("🛒 Rendering cart items:", items);
 
   if (items.length === 0) {
     container.innerHTML = `
@@ -82,16 +91,16 @@ function generateQuantityOptions(currentQty) {
 }
 
 // Update item quantity
-function updateItemQuantity(productId, quantity) {
-  cart.updateQuantity(productId, quantity);
-  renderCartItems();
+async function updateItemQuantity(productId, quantity) {
+  await cart.updateQuantity(productId, quantity);
+  await renderCartItems();
 }
 
 // Remove item from cart
-function removeFromCart(productId) {
+async function removeFromCart(productId) {
   if (confirm("Are you sure you want to remove this item from your cart?")) {
-    cart.removeItem(productId);
-    renderCartItems();
+    await cart.removeItem(productId);
+    await renderCartItems();
     showNotification("Item removed from cart");
   }
 }
@@ -148,5 +157,6 @@ function showNotification(message) {
 
 // Initialize cart page
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("🚀 Cart page loaded, rendering items...");
   renderCartItems();
 });
