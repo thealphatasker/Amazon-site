@@ -9,9 +9,10 @@ class ShoppingCart {
   async loadCartFromBackend() {
     try {
       const response = await fetch(`${API_ENDPOINTS.cart}?userId=${USER_ID}`);
-      if (response.ok) {
-        const data = await response.json();
-        this.items = data.items.map((item) => ({
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        this.items = data.cart.items.map((item) => ({
           id: item.productId,
           name: item.name,
           price: item.price,
@@ -22,10 +23,12 @@ class ShoppingCart {
           quantity: item.quantity,
         }));
         this.updateCartCount();
+      } else {
+        console.warn("Backend unavailable, using localStorage");
+        this.loadCartFromLocalStorage();
       }
     } catch (error) {
       console.error("Error loading cart from backend:", error);
-      // Fallback to localStorage if backend is unavailable
       this.loadCartFromLocalStorage();
     }
   }
@@ -56,9 +59,10 @@ class ShoppingCart {
         }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        this.items = data.items.map((item) => ({
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        this.items = data.cart.items.map((item) => ({
           id: item.productId,
           name: item.name,
           price: item.price,
@@ -72,11 +76,10 @@ class ShoppingCart {
         this.updateCartCount();
         this.showNotification(`${product.name} added to cart!`);
       } else {
-        throw new Error("Failed to add item to cart");
+        throw new Error(data.message || "Failed to add item");
       }
     } catch (error) {
       console.error("Error adding to cart:", error);
-      // Fallback to local storage
       this.addItemLocally(product);
     }
   }
@@ -96,7 +99,10 @@ class ShoppingCart {
 
     this.saveToLocalStorage();
     this.updateCartCount();
-    this.showNotification(`${product.name} added to cart! (Offline mode)`);
+    this.showNotification(
+      `${product.name} added to cart! (Offline mode)`,
+      "warning",
+    );
   }
 
   // Remove item from cart (with backend sync)
@@ -109,9 +115,10 @@ class ShoppingCart {
         },
       );
 
-      if (response.ok) {
-        const data = await response.json();
-        this.items = data.items.map((item) => ({
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        this.items = data.cart.items.map((item) => ({
           id: item.productId,
           name: item.name,
           price: item.price,
@@ -124,11 +131,10 @@ class ShoppingCart {
         this.saveToLocalStorage();
         this.updateCartCount();
       } else {
-        throw new Error("Failed to remove item from cart");
+        throw new Error(data.message || "Failed to remove item");
       }
     } catch (error) {
       console.error("Error removing from cart:", error);
-      // Fallback to local storage
       this.items = this.items.filter((item) => item.id !== productId);
       this.saveToLocalStorage();
       this.updateCartCount();
@@ -150,9 +156,10 @@ class ShoppingCart {
         }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        this.items = data.items.map((item) => ({
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        this.items = data.cart.items.map((item) => ({
           id: item.productId,
           name: item.name,
           price: item.price,
@@ -165,11 +172,10 @@ class ShoppingCart {
         this.saveToLocalStorage();
         this.updateCartCount();
       } else {
-        throw new Error("Failed to update cart");
+        throw new Error(data.message || "Failed to update cart");
       }
     } catch (error) {
       console.error("Error updating cart:", error);
-      // Fallback to local storage
       const item = this.items.find((item) => item.id === productId);
       if (item) {
         item.quantity = parseInt(quantity);
@@ -224,7 +230,9 @@ class ShoppingCart {
         },
       );
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (response.ok && data.success) {
         this.items = [];
         this.saveToLocalStorage();
         this.updateCartCount();
@@ -238,15 +246,16 @@ class ShoppingCart {
   }
 
   // Show notification
-  showNotification(message) {
+  showNotification(message, type = "success") {
+    const bgColor = type === "success" ? "bg-success" : "bg-warning";
     const toast = document.createElement("div");
     toast.className = "position-fixed top-0 end-0 p-3";
     toast.style.zIndex = "9999";
     toast.innerHTML = `
       <div class="toast show" role="alert">
-        <div class="toast-header bg-success text-white">
+        <div class="toast-header ${bgColor} text-white">
           <i class="fa-solid fa-check-circle me-2"></i>
-          <strong class="me-auto">Success</strong>
+          <strong class="me-auto">${type === "success" ? "Success" : "Warning"}</strong>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
         </div>
         <div class="toast-body">
